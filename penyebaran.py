@@ -1,4 +1,3 @@
-import matplotlib
 import random
 import turtle
 import random
@@ -15,9 +14,6 @@ x_min = 0
 x_range = x_max - x_min
 y_range = y_max - y_min
 
-# jumlah pergerakan
-pergerakan = 100
-
 # membuat grid
 grid = turtle.Turtle()
 grid.ht()
@@ -32,19 +28,17 @@ for x in range(4):
     grid.forward(20)
     grid.left(90)
 
-
-# membuat turtle
-# colors = ["gold", "red", "lightgreen", "magenta", "blue",
-#           "orange", "darkgreen", "cyan", "brown", "gray"]
-
-# colors = ["green"]
+# inisialisasi variabel
 
 turtles = []
 haris = []
 imuns = []
 terjangkits = []
+#kondisi iterasi, berhenti apabila terjangkitCount = 0
+terjangkitCount = 0
+
 # membuat pen
-for j in range(100):
+for j in range(200):
 
     pen = turtle.Turtle()
     pen.speed(11)
@@ -68,22 +62,22 @@ turtles.append(pen)
 imuns.append(False)
 haris.append(0)
 terjangkits.append(True)
+terjangkitCount += 1
 
 # perulangan menaruh semua turtle yang telah dibuat pada posisi masing masing
 for j in range(len(turtles)):
 
     turtles[j].pu()
     turtles[j].ht()
-    # random antara x_min hingga x_max begitu pula pada y dengan kelipatan 25
+    # random antara x_min hingga x_max begitu pula pada y
     turtles[j].goto(random.randrange(x_min, x_max, 1),
                     random.randrange(y_min, y_max, 1))
     turtles[j].st()
     # turtles[j].pd()
 
 
-for i in range(pergerakan-1):
+while terjangkitCount > 0:
     for j in range(len(turtles)):
-
         x = turtles[j].xcor()
         y = turtles[j].ycor()
 
@@ -91,13 +85,13 @@ for i in range(pergerakan-1):
         turn = random.random()
 
         # menentukan arah
-        if turn <= 0.25:
+        if turn <= 0.2:
             x = x + 1
-        elif turn <= 0.5:
+        elif turn <= 0.4:
             y = y + 1
-        elif turn <= 0.75:
+        elif turn <= 0.6:
             x = x - 1
-        else:
+        elif turn <= 0.8:
             y = y + 1
 
         if x > x_max:
@@ -124,25 +118,29 @@ for i in range(pergerakan-1):
             turtles[j].goto(x, y_max)
             y = y + y_range
 
+        # infeksi
         if (turtles[j].pencolor() == 'red'):
             for k in range(len(turtles)):
                 if (((turtles[k].xcor()-turtles[j].xcor() == 0) and (turtles[k].ycor()-turtles[j].ycor() == 0)) and imuns[k] == False) and turtles[k] != turtles[j]:
                     terinfeksi = random.random()
-                    # terinfeksi = terinfeksi/10
-                    turtles[k].color('red')
-                    terjangkits[k] = True
-                    # if (terinfeksi <= 0.4):
+                    terinfeksi = terinfeksi/10
+                    if (terinfeksi <= 0.05):
+                        turtles[k].color('red')
+                        terjangkits[k] = True
+                        terjangkitCount += 1
 
+        # recovery time
         if (imuns[j] == False) and (terjangkits[j] == True):
             haris[j] = haris[j] + 1
 
+        # penyembuhan
         if (haris[j] == 10 and terjangkits[j] == True):
             turtles[j].color('green')
             imuns[j] = True
             terjangkits[j] = False
+            terjangkitCount -= 1
 
         turtles[j].st()
-        # turtles[j].pd()
         turtles[j].goto(x, y)
 
 print("time\t: %s" % (time.time() - start_time))
