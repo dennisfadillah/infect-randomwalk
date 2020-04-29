@@ -2,11 +2,16 @@ import random
 import turtle
 import random
 import time
+import matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
 
 start_time = time.time()
 screen = turtle.Screen()
 screen.setworldcoordinates(-5, -5, 25, 30)
 
+xcor=[]
+ycor=[]
 x_max = 20
 y_max = 20
 y_min = 0
@@ -29,7 +34,7 @@ for x in range(4):
     grid.left(90)
 
 # inisialisasi variabel
-
+h=0
 turtles = []
 haris = []
 imuns = []
@@ -142,6 +147,17 @@ while terjangkitCount > 0:
 
         turtles[j].st()
         turtles[j].goto(x, y)
+
+        
+    h= h+1
+    xcor.append(len(terjangkits))
+    ycor.append(h)
+    plt.plot(xcor,ycor) #-> Plot garis
+    
+plt.title('Grafik Penyebaran Virus')
+plt.xlabel('sumbu x') #Sumbu -X
+plt.ylabel('Sumbu y')#Sumbu -Y 
+plt.show()
 
 print("time\t: %s" % (time.time() - start_time))
 screen.exitonclick()
