@@ -32,7 +32,7 @@ def animasi(xcor, ycor):
     grid.pu()
     grid.goto(0, 0)
     grid.pd()
-    grid.speed(7)
+    grid.speed(50)
 
     for x in range(4):
         grid.forward(20)
@@ -51,7 +51,7 @@ def animasi(xcor, ycor):
     for j in range(200):
 
         pen = turtle.Turtle()
-        pen.speed(11)
+        pen.speed(0)
         pen.shape('circle')
         pen.shapesize(0.3)
         pen.pensize(2)
@@ -62,17 +62,18 @@ def animasi(xcor, ycor):
         haris.append(0)
         turtles.append(pen)
     # buat yang terinfeksi
-    pen = turtle.Turtle()
-    pen.speed(11)
-    pen.shape('circle')
-    pen.shapesize(0.3)
-    pen.pensize(2)
-    pen.color('red')
-    turtles.append(pen)
-    imuns.append(False)
-    haris.append(0)
-    terjangkits.append(True)
-    terjangkitCount += 1
+    for j in range(3):
+        pen = turtle.Turtle()
+        pen.speed(0)
+        pen.shape('circle')
+        pen.shapesize(0.3)
+        pen.pensize(2)
+        pen.color('red')
+        turtles.append(pen)
+        imuns.append(True)
+        haris.append(0)
+        terjangkits.append(True)
+        terjangkitCount += 1
 
     # perulangan menaruh semua turtle yang telah dibuat pada posisi masing masing
     for j in range(len(turtles)):
@@ -87,6 +88,7 @@ def animasi(xcor, ycor):
 
     while terjangkitCount > 0:
         for j in range(len(turtles)):
+
             x = turtles[j].xcor()
             y = turtles[j].ycor()
 
@@ -130,22 +132,22 @@ def animasi(xcor, ycor):
             # infeksi
             if (turtles[j].pencolor() == 'red'):
                 for k in range(len(turtles)):
-                    if (((turtles[k].xcor()-turtles[j].xcor() == 0) and (turtles[k].ycor()-turtles[j].ycor() == 0)) and imuns[k] == False) and turtles[k] != turtles[j]:
+                    if (((turtles[k].xcor()-turtles[j].xcor() == 0) and (turtles[k].ycor()-turtles[j].ycor() == 0)) and imuns[k] == False):
                         terinfeksi = random.random()
                         terinfeksi = terinfeksi/10
-                        if (terinfeksi <= 0.05):
+                        if (terinfeksi > 0):
                             turtles[k].color('red')
                             terjangkits[k] = True
                             terjangkitCount += 1
+                            imuns[k] = True
 
             # recovery time
-            if (imuns[j] == False) and (terjangkits[j] == True):
+            if (imuns[j] == True) and (terjangkits[j] == True):
                 haris[j] = haris[j] + 1
 
             # penyembuhan
             if (haris[j] == 10 and terjangkits[j] == True):
                 turtles[j].color('green')
-                imuns[j] = True
                 terjangkits[j] = False
                 terjangkitCount -= 1
 
@@ -153,8 +155,10 @@ def animasi(xcor, ycor):
             turtles[j].goto(x, y)
 
         h = h+1
-        xcor.append(len(terjangkits))
-        ycor.append(h)
+        ycor.append(terjangkitCount)
+        xcor.append(h)
+
+        print(terjangkitCount)
 
 
 def grafik(xcor, ycor):
