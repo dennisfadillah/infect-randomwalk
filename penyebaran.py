@@ -44,16 +44,16 @@ haris = []
 imuns = []
 terjangkits = []
 # membuat pen
-for j in range(10):
+for j in range(100):
 
     pen = turtle.Turtle()
-    pen.speed(9)
+    pen.speed(11)
     pen.shape('circle')
     pen.shapesize(0.3)
     pen.pensize(2)
     pen.color('green')
-    imun = False
 
+    imun = False
     terjangkits.append(False)
     imuns.append(False)
     haris.append(0)
@@ -66,6 +66,9 @@ pen.shapesize(0.3)
 pen.pensize(2)
 pen.color('red')
 turtles.append(pen)
+imuns.append(False)
+haris.append(0)
+terjangkits.append(True)
 
 # perulangan menaruh semua turtle yang telah dibuat pada posisi masing masing
 for j in range(len(turtles)):
@@ -124,18 +127,20 @@ for i in range(pergerakan-1):
 
         if (turtles[j].pencolor() == 'red'):
             for k in range(len(turtles)):
-                if ((turtles[k].xcor()-turtles[j].xcor() == 25) or (turtles[k].xcor()-turtles[j].xcor() == -25) or (turtles[k].ycor()-turtles[j].ycor() == -25) or (turtles[k].ycor()-turtles[j].ycor() == 25)) and imuns[k] == False:
+                if ((turtles[k].xcor()-turtles[j].xcor() == 0) and (turtles[k].ycor()-turtles[j].ycor() == 0)) and imuns[k] == False:
                     terinfeksi = random.random()
                     terinfeksi = terinfeksi/10
                     if (terinfeksi <= 0.05):
                         turtles[k].color('red')
+                        terjangkits[k] = True
 
         if (imuns[j] == False) and (terjangkits[j] == True):
             haris[j] = haris[j] + 1
 
-        if (haris[j] == 10 and terjangkits[j] == True):
+        if (haris[j] >= 10 and terjangkits[j] == True):
             turtles[j].color('green')
             imuns[j] = True
+            terjangkits[j] = False
 
         turtles[j].st()
         # turtles[j].pd()
