@@ -11,10 +11,6 @@ screen = turtle.Screen()
 screen.setworldcoordinates(-5, -5, 25, 30)
 
 
-xcor = []
-ycor = []
-
-
 def animasi(xcor, ycor):
 
     x_max = 20
@@ -39,16 +35,21 @@ def animasi(xcor, ycor):
         grid.left(90)
 
     # inisialisasi variabel
+    # kondisi iterasi, berhenti apabila terjangkitCount = 0
     h = 0
     turtles = []
     haris = []
     imuns = []
     terjangkits = []
-    # kondisi iterasi, berhenti apabila terjangkitCount = 0
     terjangkitCount = 0
+    jumlah_individu = 200
+    individu_sehat = int(95/100*jumlah_individu)
+    individu_terjangkit = jumlah_individu-individu_sehat
 
-    # membuat pen
-    for j in range(200):
+    # variable untuk dikirim ke grafik
+
+    # instansiasi individu tidak terjangkit dengan jumlah 95% dari jumlah individu
+    for j in range(individu_sehat):
 
         pen = turtle.Turtle()
         pen.speed(0)
@@ -62,7 +63,7 @@ def animasi(xcor, ycor):
         haris.append(0)
         turtles.append(pen)
     # buat yang terinfeksi
-    for j in range(3):
+    for j in range(individu_terjangkit):
         pen = turtle.Turtle()
         pen.speed(0)
         pen.shape('circle')
@@ -133,13 +134,10 @@ def animasi(xcor, ycor):
             if (turtles[j].pencolor() == 'red'):
                 for k in range(len(turtles)):
                     if (((turtles[k].xcor()-turtles[j].xcor() == 0) and (turtles[k].ycor()-turtles[j].ycor() == 0)) and imuns[k] == False):
-                        terinfeksi = random.random()
-                        terinfeksi = terinfeksi/10
-                        if (terinfeksi > 0):
-                            turtles[k].color('red')
-                            terjangkits[k] = True
-                            terjangkitCount += 1
-                            imuns[k] = True
+                        turtles[k].color('red')
+                        terjangkits[k] = True
+                        terjangkitCount += 1
+                        imuns[k] = True
 
             # recovery time
             if (imuns[j] == True) and (terjangkits[j] == True):
@@ -164,12 +162,14 @@ def animasi(xcor, ycor):
 def grafik(xcor, ycor):
     plt.plot(xcor, ycor)  # -> Plot garis
     plt.title('Grafik Penyebaran Virus')
-    plt.xlabel('sumbu x')  # Sumbu -X
-    plt.ylabel('Sumbu y')  # Sumbu -Y
+    plt.xlabel('hari')  # Sumbu -X
+    plt.ylabel('jumlah terjangkit covid-19')  # Sumbu -Y
     plt.legend()
     plt.show()
 
 
+xcor = []
+ycor = []
 animasi(xcor, ycor)
 grafik(xcor, ycor)
 
