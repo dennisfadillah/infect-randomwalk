@@ -40,9 +40,11 @@ for x in range(4):
 # colors = ["green"]
 
 turtles = []
-
+haris = []
+imuns = []
+terjangkits = []
 # membuat pen
-for j in range(50):
+for j in range(10):
 
     pen = turtle.Turtle()
     pen.speed(9)
@@ -50,6 +52,11 @@ for j in range(50):
     pen.shapesize(0.3)
     pen.pensize(2)
     pen.color('green')
+    imun = False
+
+    terjangkits.append(False)
+    imuns.append(False)
+    haris.append(0)
     turtles.append(pen)
 # buat yang terinfeksi
 pen = turtle.Turtle()
@@ -115,12 +122,20 @@ for i in range(pergerakan-1):
             turtles[j].goto(x, y_max)
             y = y + y_range
 
-        if (turtles[j].color() == 'red'):
+        if (turtles[j].pencolor() == 'red'):
             for k in range(len(turtles)):
-                if (turtles[k].xcor()-turtles[j].xcor() == 25) or (turtles[k].xcor()-turtles[j].xcor() == -25) or (turtles[k].ycor()-turtles[j].ycor() == -25) or (turtles[k].ycor()-turtles[j].ycor() == 25):
-                    turtles[k].color('red')
-                # terinfeksi = random.Random()
-                # if (terinfeksi <= 0.05):
+                if ((turtles[k].xcor()-turtles[j].xcor() == 25) or (turtles[k].xcor()-turtles[j].xcor() == -25) or (turtles[k].ycor()-turtles[j].ycor() == -25) or (turtles[k].ycor()-turtles[j].ycor() == 25)) and imuns[k] == False:
+                    terinfeksi = random.random()
+                    terinfeksi = terinfeksi/10
+                    if (terinfeksi <= 0.05):
+                        turtles[k].color('red')
+
+        if (imuns[j] == False) and (terjangkits[j] == True):
+            haris[j] = haris[j] + 1
+
+        if (haris[j] == 10 and terjangkits[j] == True):
+            turtles[j].color('green')
+            imuns[j] = True
 
         turtles[j].st()
         # turtles[j].pd()
